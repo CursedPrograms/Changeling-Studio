@@ -88,3 +88,13 @@ tr:first-child td { border-top: 0; }
   td:first-child { white-space: normal; }
   main section { padding: 24px 0; }
 }
+
+/* the family's pictures: a thumbnail on each card, a whole sample sheet in each chapter (Studio's page) */
+.card-sample { width: 100%; height: 120px; object-fit: cover; object-position: center 20%; border-radius: 6px;
+               margin-bottom: 10px; display: block; }
+.chapters { display: grid; gap: 22px; margin-top: 16px; }
+.chapter { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+.chapter h3 { font-size: 1.3rem; margin-bottom: 4px; }
+.chapter h3 a { color: var(--accent); text-decoration: none; }
+.chapter-sample { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border); display: block; margin: 10px 0 6px; }
+.chapter-links { margin: 6px 0 0; font-size: 0.95rem; }
