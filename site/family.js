@@ -18,6 +18,8 @@
      "assets/chronos_samples.jpg"],
     ["Cosmetics", "Changeling-Cosmetics", "Makeup, hair colour and length, and beards: colour, stubble, shave.",
      "assets/cosmetics_samples.jpg"],
+    ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with: RVC voices from Piper or your own recordings.",
+     "assets/window.png"],
     ["Studio", "Changeling-Studio", "Every Changeling in one place; one window and chains coming.", "site/logo.png"]
   ];
 

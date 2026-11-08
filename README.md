@@ -14,7 +14,7 @@
 
 Every Changeling in one place. Each Changeling is its own program and its own repo; Studio keeps them side by
 side in one folder, so you work from here as if they were all one project, and (coming) runs them in one
-window, with **chains**: CopyCat Realtime > Chronos > Cosmetics, each adding to the last, live or on photos.
+window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each adding to the last, live or on photos.
 
 | Changeling | What it does |
 | --- | --- |
@@ -22,7 +22,8 @@ window, with **chains**: CopyCat Realtime > Chronos > Cosmetics, each adding to 
 | [CopyCat Realtime](https://github.com/CursedPrograms/Changeling-CopyCat-Realtime) | the face swap live on the webcam for video calls, with a female/male voice and recording |
 | [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias) | gender swap for photos |
 | [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) | age a face forwards or backwards, or a five-age timeline |
-| [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) | makeup, hair colour and length, beards |
+| [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) | makeup, hair colour and length, beards, on two layers |
+| [Echo](https://github.com/CursedPrograms/Changeling-Echo) | train the voices the Changelings speak with (RVC, from Piper or your own recordings) |
 
 ## Get them all
 

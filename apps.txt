@@ -5,3 +5,4 @@ Changeling-CopyCat-Realtime
 Changeling-Tiresias
 Changeling-Chronos
 Changeling-Cosmetics
+Changeling-Echo
