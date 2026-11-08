@@ -1,0 +1,90 @@
+/* changeling.css - the one look every Changeling's site shares (CopyCat, CopyCat Realtime, Tiresias,
+   Chronos, Cosmetics, Studio). Each site links it from Changeling Studio's Pages, so a change here shows
+   on all of them. The colours are the apps' own windows: customtkinter's dark greys and the Cursed pink.
+   Solid colours only: no gradients, no drop shadows. */
+:root {
+  --bg: #1a1a1a;          /* the window (gray10) */
+  --panel: #212121;       /* frames (gray13) */
+  --panel2: #2b2b2b;      /* inputs, chips */
+  --border: #333333;
+  --text: #d6d6d6;        /* gray84 */
+  --dim: #9a9a9a;
+  --accent: #e0408a;      /* the Cursed pink: buttons, switches, bars */
+  --accent-dark: #c2186b;
+  --link: #f29cc0;
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --mono: "Cascadia Mono", ui-monospace, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--font); }
+a { color: var(--link); }
+img { max-width: 100%; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+/* the top: like the app's sidebar title (CHANGELING, then the name in pink) */
+header { padding: 56px 0 36px; text-align: center; background: var(--bg); border-bottom: 1px solid var(--border); }
+.eyebrow { color: var(--dim); text-transform: uppercase; letter-spacing: 0.22em; font-size: 0.8rem; font-weight: 700; }
+h1 { font-size: clamp(2.3rem, 8vw, 3.8rem); margin: 6px 0 0; color: var(--accent); line-height: 1.1; }
+.tagline { font-size: 1.2rem; margin: 6px 0 14px; color: var(--text); }
+.lede { max-width: 720px; margin: 0 auto 22px; color: var(--dim); }
+.cta { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 10px 18px; border-radius: 6px; border: 1px solid var(--border);
+       color: var(--text); text-decoration: none; background: var(--panel); font-weight: 600; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-dark); }
+.tags { margin: 16px 0 0; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.tag { font-size: 0.8rem; color: var(--dim); background: var(--panel2); border-radius: 999px; padding: 3px 11px; }
+.hero { margin: 28px auto 0; }
+.hero img, .sheet img { height: auto; border-radius: 10px; border: 1px solid var(--border); display: block; }
+
+main section { padding: 32px 0; border-bottom: 1px solid var(--border); }
+main section:last-child { border-bottom: 0; }
+h2 { margin: 0 0 12px; font-size: 1.5rem; }
+h3 { margin: 0 0 8px; font-size: 1.05rem; }
+h2::before { content: ""; display: inline-block; width: 6px; height: 0.9em; background: var(--accent);
+             border-radius: 3px; margin-right: 10px; vertical-align: -0.05em; }
+p { color: var(--dim); }
+strong, em { color: var(--text); }
+code, kbd { font-family: var(--mono); font-size: 0.88em; background: var(--panel2); border-radius: 5px;
+            padding: 1px 6px; color: var(--text); overflow-wrap: anywhere; }
+.sheet { margin: 16px 0 0; }
+.sheet img { width: 100%; cursor: zoom-in; }
+
+.steps { color: var(--dim); padding-left: 22px; }
+.steps li { margin: 6px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; }
+.card p { margin: 0; font-size: 0.95rem; }
+.card .n { position: absolute; top: 12px; right: 16px; color: var(--accent); font: 700 1.3rem var(--mono); }
+.card.here { border-color: var(--accent); }
+.card a { color: var(--text); text-decoration: none; }
+.card a:hover { color: var(--link); }
+table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+td { padding: 6px 4px; border-top: 1px solid var(--border); color: var(--dim); vertical-align: top; }
+td:first-child { color: var(--text); white-space: nowrap; width: 1%; padding-right: 14px; }
+tr:first-child td { border-top: 0; }
+
+/* the family: every Changeling, filled in by family.js */
+#family .card h3 { color: var(--text); }
+#family .card .what { color: var(--dim); font-size: 0.9rem; }
+
+.lightbox { position: fixed; inset: 0; background: rgba(10, 10, 10, 0.94); display: flex; align-items: center;
+            justify-content: center; padding: 16px; cursor: zoom-out; z-index: 10; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
+
+#site-footer { text-align: center; color: var(--dim); padding: 32px 0 40px; border-top: 1px solid var(--border); }
+
+/* phones */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  header { padding: 36px 0 26px; }
+  .wrap { padding: 0 14px; }
+  .btn { flex: 1 1 auto; text-align: center; }
+  .grid, .grid.two { grid-template-columns: 1fr; }
+  td:first-child { white-space: normal; }
+  main section { padding: 24px 0; }
+}

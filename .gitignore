@@ -1,0 +1,6 @@
+# Each Changeling is its own repo, in its own folder here (see apps.txt): Studio doesn't track them.
+/Changeling-*/
+# Studio's own environment and caches
+venv/
+__pycache__/
+*.pyc
