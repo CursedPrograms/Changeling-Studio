@@ -16,6 +16,8 @@
      "assets/tiresias_samples.jpg"],
     ["Chronos", "Changeling-Chronos", "Age a face forwards or backwards, or a five-age timeline, holding the face's gender.",
      "assets/chronos_samples.jpg"],
+    ["Natio", "Changeling-Natio", "Your face as it might look born somewhere else in the world.",
+     "assets/natio_samples.jpg"],
     ["Cosmetics", "Changeling-Cosmetics", "Makeup, hair colour and length, and beards: colour, stubble, shave.",
      "assets/cosmetics_samples.jpg"],
     ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with: RVC voices from Piper or your own recordings.",
