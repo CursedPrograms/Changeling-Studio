@@ -1,7 +1,7 @@
 # The Changelings Studio is made of: one per line, each its own repo (github.com/CursedPrograms/<name>),
 # kept in its own folder here. fetch.bat / fetch.ps1 / fetch.sh clone the missing ones and pull the rest.
-Changeling-CopyCat
-Changeling-CopyCat-Realtime
+Changeling-Simia
+Changeling-Simia-Realtime
 Changeling-Tiresias
 Changeling-Chronos
 Changeling-Natio
