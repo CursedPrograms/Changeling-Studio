@@ -54,8 +54,10 @@ again.
 - **Studio itself:** one window with every Changeling as a tab.
 - **Chains:** run several in a row (CopyCat Realtime > Chronos > Cosmetics), live or on a photo.
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
-- **Cosmetics Realtime** (makeup and hair colour live), and **run_server**: a Flask server with a QR code, so a
-  phone's camera and microphone can be the input while the PC does the work.
+- **Cosmetics Realtime** (makeup and hair colour live).
+
+**Your phone as the camera:** CopyCat Realtime's `run_server.bat` (and the realtime ones' **Phone as the camera**
+switch) serves a page with a QR code: the phone's camera and microphone are the input, the PC does the work.
 - **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 
 ## The look
