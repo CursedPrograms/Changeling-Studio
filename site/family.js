@@ -10,7 +10,7 @@
   var FAMILY = [
     ["CopyCat", "Changeling-CopyCat", "One face onto any photo or video, with a completion bar and GFPGAN clean-up.",
      "samples/changeling_sample.jpg"],
-    ["CopyCat Realtime", "Changeling-CopyCat-Realtime", "The face swap live on the webcam for video calls, with a female/male voice and recording.",
+    ["CopyCat Realtime", "Changeling-CopyCat-Realtime", "The face swap live on the webcam for video calls, with the persona's skin, a female/male voice (or Echo's) and recording.",
      "samples/persona_samples.jpg"],
     ["Tiresias", "Changeling-Tiresias", "Gender swap for photos: it reads the face, picks the other gender, and learns the face so it still looks like you.",
      "assets/tiresias_samples.jpg"],
@@ -20,8 +20,14 @@
      "assets/natio_samples.jpg"],
     ["Cosmetics", "Changeling-Cosmetics", "Makeup, hair colour and length, and beards: colour, stubble, shave.",
      "assets/cosmetics_samples.jpg"],
-    ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with: RVC voices from Piper or your own recordings.",
+    ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live.",
      "assets/window.png"],
+    ["Tiresias Realtime", "Changeling-Tiresias-Realtime", "The other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime.",
+     "assets/realtime_samples.jpg"],
+    ["Chronos Realtime", "Changeling-Chronos-Realtime", "Younger or older live on a call: one snapshot, aged by Chronos, worn live by CopyCat Realtime.",
+     "assets/realtime_samples.jpg"],
+    ["Natio Realtime", "Changeling-Natio-Realtime", "Another ancestry live on a call: one snapshot, changed by Natio, worn live by CopyCat Realtime.",
+     "assets/realtime_samples.jpg"],
     ["Studio", "Changeling-Studio", "Every Changeling in one place; one window and chains coming.", "site/logo.png"]
   ];
 

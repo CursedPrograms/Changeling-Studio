@@ -24,7 +24,16 @@ window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each add
 | [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) | age a face forwards or backwards, or a five-age timeline |
 | [Natio](https://github.com/CursedPrograms/Changeling-Natio) | your face as it might look born somewhere else in the world |
 | [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) | makeup, hair colour and length, beards, on two layers |
-| [Echo](https://github.com/CursedPrograms/Changeling-Echo) | train the voices the Changelings speak with (RVC, from Piper or your own recordings) |
+| [Echo](https://github.com/CursedPrograms/Changeling-Echo) | train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live |
+| [Tiresias Realtime](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) | the other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime |
+| [Chronos Realtime](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) | younger or older live on a call, the same way |
+| [Natio Realtime](https://github.com/CursedPrograms/Changeling-Natio-Realtime) | another ancestry live on a call, the same way |
+
+The three realtime ones are one program, `realtime/live.py`, with a `realtime.json` naming its Changeling.
+`python realtime/make_realtime.py` writes all three repos from it (code, run scripts, README, site page, QR code);
+change it here, run that, then commit and push each. StyleGAN editing is a minute's work per face, far too slow for
+every frame, so they make the new you once and CopyCat Realtime wears it live, with the new you's skin (its tone
+and wrinkles) through CopyCat Realtime's **Persona's skin**.
 
 ## Get them all
 
@@ -45,8 +54,8 @@ again.
 - **Studio itself:** one window with every Changeling as a tab.
 - **Chains:** run several in a row (CopyCat Realtime > Chronos > Cosmetics), live or on a photo.
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
-- **Realtime versions** of every Changeling, each its own repo; **run_server**: a Flask server with a QR code,
-  so a phone's camera and microphone can be the input while the PC does the work.
+- **Cosmetics Realtime** (makeup and hair colour live), and **run_server**: a Flask server with a QR code, so a
+  phone's camera and microphone can be the input while the PC does the work.
 - **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 
 ## The look
