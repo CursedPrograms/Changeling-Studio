@@ -22,14 +22,14 @@ APPS = {
         what="the other gender",
         tagline="Be the other gender, live on a video call",
         lede="One snapshot of you, swapped to the other gender by Changeling Tiresias, then worn live by Changeling "
-             "Simia Realtime: your own expressions, the other you's face, out to the call through OBS Virtual "
+             "Imago Realtime: your own expressions, the other you's face, out to the call through OBS Virtual "
              "Camera. The voice can follow (female or male, or Changeling Echo's trained voices).",
         options="**To female / To male** (or **Auto**: the opposite of the face it sees) and the strength",
         topic="gender-swap"),
     "Chronos": dict(
         what="younger or older",
         tagline="Be younger or older, live on a video call",
-        lede="One snapshot of you, aged by Changeling Chronos, then worn live by Changeling Simia Realtime: your "
+        lede="One snapshot of you, aged by Changeling Chronos, then worn live by Changeling Imago Realtime: your "
              "own expressions, younger or older, out to the call through OBS Virtual Camera.",
         options="the **age** (below 0 younger, above 0 older) and **keep gender** (Chronos holds a face's gender as "
                 "it ages it)",
@@ -38,7 +38,7 @@ APPS = {
         what="another ancestry",
         tagline="Another ancestry, live on a video call",
         lede="One snapshot of you, changed by Changeling Natio to how you might look born somewhere else in the "
-             "world, then worn live by Changeling Simia Realtime: your own expressions, out to the call through "
+             "world, then worn live by Changeling Imago Realtime: your own expressions, out to the call through "
              "OBS Virtual Camera. Made for curiosity; use it on yourself, not to mock anyone.",
         options="**Towards** (African, European, East Asian), the strength, and **keep gender**",
         topic="face-editing"),
@@ -53,7 +53,7 @@ def topics(app):
 def description(app):
     a = APPS[app]
     return (f"Changeling {app} Realtime: {a['what']}, live on a video call - one snapshot of you, changed by "
-            f"Changeling {app} (StyleGAN2), then worn live by Changeling Simia Realtime with your own expressions.")
+            f"Changeling {app} (StyleGAN2), then worn live by Changeling Imago Realtime with your own expressions.")
 
 
 def write(path, text, newline="\n"):
@@ -66,9 +66,9 @@ RUN_BAT = r'''@echo off
 setlocal
 cd /d "%~dp0"
 rem Changeling {app} Realtime runs in Changeling {app}'s environment: it needs Changeling {app} and Changeling
-rem Simia Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
+rem Imago Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
 set "STUDIO=%~dp0.."
-for %%A in ({app} Simia-Realtime) do (
+for %%A in ({app} Imago-Realtime) do (
     if not exist "%STUDIO%\Changeling-%%A" (
         echo Getting Changeling %%A ...
         git clone https://github.com/{owner}/Changeling-%%A "%STUDIO%\Changeling-%%A" || goto :error
@@ -85,8 +85,8 @@ if not defined PY (
     call "%STUDIO%\Changeling-{app}\run.bat" --download-models
     set "PY=%STUDIO%\Changeling-{app}\psdenv\Scripts\python.exe"
 )
-if not exist "%STUDIO%\Changeling-Simia-Realtime\venv\Scripts\python.exe" (
-    echo Changeling Simia Realtime isn't set up yet: start its run.bat once, then come back.
+if not exist "%STUDIO%\Changeling-Imago-Realtime\venv\Scripts\python.exe" (
+    echo Changeling Imago Realtime isn't set up yet: start its run.bat once, then come back.
 )
 
 "%PY%" live.py %*
@@ -100,11 +100,11 @@ exit /b 1
 '''
 
 RUN_PS1 = r'''# Changeling {app} Realtime runs in Changeling {app}'s environment: it needs Changeling {app} and Changeling
-# Simia Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
+# Imago Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 $Studio = Split-Path $PSScriptRoot -Parent
-foreach ($a in @("{app}", "Simia-Realtime")) {{
+foreach ($a in @("{app}", "Imago-Realtime")) {{
     $dir = Join-Path $Studio "Changeling-$a"
     if (-not (Test-Path $dir)) {{
         Write-Host "Getting Changeling $a ..."
@@ -124,8 +124,8 @@ if (-not $Py) {{
     & (Join-Path $Studio "Changeling-{app}\run.ps1") --download-models
     $Py = Join-Path $Studio "Changeling-{app}\psdenv\Scripts\python.exe"
 }}
-if (-not (Test-Path (Join-Path $Studio "Changeling-Simia-Realtime\venv\Scripts\python.exe"))) {{
-    Write-Host "Changeling Simia Realtime isn't set up yet: start its run.ps1 once, then come back."
+if (-not (Test-Path (Join-Path $Studio "Changeling-Imago-Realtime\venv\Scripts\python.exe"))) {{
+    Write-Host "Changeling Imago Realtime isn't set up yet: start its run.ps1 once, then come back."
 }}
 
 & $Py live.py @args
@@ -133,11 +133,11 @@ if (-not (Test-Path (Join-Path $Studio "Changeling-Simia-Realtime\venv\Scripts\p
 
 RUN_SH = r'''#!/usr/bin/env bash
 # Changeling {app} Realtime runs in Changeling {app}'s environment: it needs Changeling {app} and Changeling
-# Simia Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
+# Imago Realtime next to this folder (as in Changeling Studio). Missing ones are fetched here.
 set -e
 cd "$(dirname "$0")"
 STUDIO="$(cd .. && pwd)"
-for a in {app} Simia-Realtime; do
+for a in {app} Imago-Realtime; do
     if [ ! -d "$STUDIO/Changeling-$a" ]; then
         echo "Getting Changeling $a ..."
         git clone "https://github.com/{owner}/Changeling-$a" "$STUDIO/Changeling-$a"
@@ -168,8 +168,8 @@ __pycache__/
 """
 
 FAMILY_LINE = """*Part of the Changeling family, all together in [Changeling Studio](https://github.com/CursedPrograms/Changeling-Studio):
-[Simia](https://github.com/CursedPrograms/Changeling-Simia) ·
-[Simia Realtime](https://github.com/CursedPrograms/Changeling-Simia-Realtime) ·
+[Imago](https://github.com/CursedPrograms/Changeling-Imago) ·
+[Imago Realtime](https://github.com/CursedPrograms/Changeling-Imago-Realtime) ·
 [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias) (gender) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) (age) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio) (where in the world) ·
@@ -206,7 +206,7 @@ FOOTER = """---
 def readme(app, has):
     a = APPS[app]
     repo = f"Changeling-{app}-Realtime"
-    samples = f"\n![You, the new you, and Simia Realtime wearing it](assets/realtime_samples.jpg)\n" \
+    samples = f"\n![You, the new you, and Imago Realtime wearing it](assets/realtime_samples.jpg)\n" \
         if has("assets/realtime_samples.jpg") else ""
     window = "\n![The window](assets/window.png)\n" if has("assets/window.png") else ""
     return f"""[![Twitter: @NorowaretaGemu](https://img.shields.io/badge/X-@NorowaretaGemu-blue.svg?style=flat)](https://x.com/NorowaretaGemu)
@@ -233,7 +233,7 @@ def readme(app, has):
 [Changeling {app}](https://github.com/CursedPrograms/Changeling-{app}) edits a face with StyleGAN2: it finds the
 face's place in StyleGAN's space (e4e), learns the face for a minute so the result still looks like you (pivotal
 tuning), and moves it. That's far too slow for 30 frames a second. So it's done once, on one snapshot of you, and
-[Changeling Simia Realtime](https://github.com/CursedPrograms/Changeling-Simia-Realtime) wears the result live: a
+[Changeling Imago Realtime](https://github.com/CursedPrograms/Changeling-Imago-Realtime) wears the result live: a
 face swap that follows your expressions, head turns and talking, at camera speed. The new you looks steady, because
 it's the same face in every frame.
 
@@ -242,7 +242,7 @@ it's the same face in every frame.
 1. Python 3.9 - 3.12, an NVIDIA GPU (4 GB is enough), a webcam. For calls:
    [OBS](https://obsproject.com/) (its Virtual Camera) and, for the voice,
    [VB-Audio Virtual Cable](https://vb-audio.com/Cable/).
-2. Start `run.bat` (or `run.ps1`, `run.sh`). It needs Changeling {app} and Changeling Simia Realtime next to
+2. Start `run.bat` (or `run.ps1`, `run.sh`). It needs Changeling {app} and Changeling Imago Realtime next to
    this folder, as in [Changeling Studio](https://github.com/CursedPrograms/Changeling-Studio); any that are missing
    are cloned there, and Changeling {app} is set up the first time (its environment and models). No environment of
    its own: it runs in Changeling {app}'s.
@@ -252,9 +252,9 @@ it's the same face in every frame.
    (only on this PC) and listed under **Made before**.
 5. **3 · Live:** **Persona's skin** (70 to start: the new you's skin tone and fine detail, like Chronos's
    wrinkles, which the face swap alone would leave as yours), the **voice** (off, female, male; **Echo** for Changeling Echo's trained voices) and **Go live**
-   (L): Simia Realtime opens wearing the new you. **Phone as the camera**: Simia Realtime shows a QR code
+   (L): Imago Realtime opens wearing the new you. **Phone as the camera**: Imago Realtime shows a QR code
    instead; open it on your phone and its camera and microphone are the input (the PC still does the work). In the call, pick **OBS Virtual Camera** as the camera (and
-   **CABLE Output** as the microphone). Close Simia Realtime to come back and make another.
+   **CABLE Output** as the microphone). Close Imago Realtime to come back and make another.
 {window}
 `run.bat --camera 1` (another webcam), `run.bat --source me.jpg` (a photo or a video instead of the webcam, for
 trying it out without one).
@@ -270,7 +270,7 @@ trying it out without one).
 
 ## Licenses
 
-MIT. Changeling {app} is MIT (the StyleGAN2 FFHQ weights are NVIDIA's, non-commercial); Changeling Simia Realtime
+MIT. Changeling {app} is MIT (the StyleGAN2 FFHQ weights are NVIDIA's, non-commercial); Changeling Imago Realtime
 uses InsightFace's inswapper (non-commercial research). So this is for personal and research use.
 
 <p align="center"><img src="assets/site-qr.png" alt="QR code to the {repo} website" width="200"></p>
@@ -284,9 +284,9 @@ def page(app, has):
     sample = f"""
   <section id="samples">
     <h2>What it looks like</h2>
-    <p>You, the new you that Changeling {app} makes from one snapshot, and Changeling Simia Realtime wearing it live.
+    <p>You, the new you that Changeling {app} makes from one snapshot, and Changeling Imago Realtime wearing it live.
       Every face is an AI-generated person who doesn't exist. Click to enlarge.</p>
-    <figure class="sheet"><img id="sheet" src="assets/realtime_samples.jpg" alt="You, the new you, and Simia Realtime wearing it" loading="lazy"></figure>
+    <figure class="sheet"><img id="sheet" src="assets/realtime_samples.jpg" alt="You, the new you, and Imago Realtime wearing it" loading="lazy"></figure>
   </section>
 """ if has("assets/realtime_samples.jpg") else ""
     window = '\n    <figure class="sheet"><img src="assets/window.png" alt="The window" loading="lazy"></figure>' \
@@ -331,7 +331,7 @@ def page(app, has):
     <h2>Use it</h2>
     <ol class="steps">
       <li>Python 3.9 - 3.12, an NVIDIA GPU (4 GB is enough), a webcam; OBS for its Virtual Camera.</li>
-      <li>Start <code>run.bat</code> (or <code>run.ps1</code>, <code>run.sh</code>). It fetches Changeling {app} and Changeling Simia Realtime next to it if they're missing.</li>
+      <li>Start <code>run.bat</code> (or <code>run.ps1</code>, <code>run.sh</code>). It fetches Changeling {app} and Changeling Imago Realtime next to it if they're missing.</li>
       <li><strong>Snapshot</strong> (or a photo), choose the change, <strong>Make the new you</strong>, then <strong>Go live</strong>.</li>
     </ol>{window}
   </section>
@@ -339,7 +339,7 @@ def page(app, has):
   <section id="why">
     <h2>Why a snapshot</h2>
     <p>StyleGAN editing learns a face for about a minute: far too slow for every frame of a call. So Changeling {app}
-      makes the new you once, and Changeling Simia Realtime wears it at camera speed, following your expressions.</p>
+      makes the new you once, and Changeling Imago Realtime wears it at camera speed, following your expressions.</p>
   </section>
 
   <section id="qr">

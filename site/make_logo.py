@@ -1,6 +1,6 @@
 """make_logo.py - draws the Changeling logo (site/logo.svg and site/icon.svg).
 
-After Gemini's sketch in Changeling Simia (logo.jfif): a face split down the middle, one half a plain
+After Gemini's sketch in Changeling Imago (logo.jfif): a face split down the middle, one half a plain
 face, the other half breaking up into pixels. Redrawn in the Cursed colours: the pixels are the apps'
 pink in five shades, the face a warm skin tone, on the windows' dark grey. Solid shapes only (no
 gradients, no shadows). Run it again after changing a colour.

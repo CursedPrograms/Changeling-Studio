@@ -8,9 +8,9 @@
   var PAGES = "https://cursedprograms.github.io/";
   // name, repo, what it does, its samples (on its own Pages site)
   var FAMILY = [
-    ["Simia", "Changeling-Simia", "One face onto any photo or video, with a completion bar and GFPGAN clean-up.",
+    ["Imago", "Changeling-Imago", "One face onto any photo or video, with a completion bar and GFPGAN clean-up.",
      "samples/changeling_sample.jpg"],
-    ["Simia Realtime", "Changeling-Simia-Realtime", "The face swap live on the webcam for video calls, with the persona's skin, a female/male voice (or Echo's) and recording.",
+    ["Imago Realtime", "Changeling-Imago-Realtime", "The face swap live on the webcam for video calls, with the persona's skin, a female/male voice (or Echo's) and recording.",
      "samples/persona_samples.jpg"],
     ["Tiresias", "Changeling-Tiresias", "Gender swap for photos: it reads the face, picks the other gender, and learns the face so it still looks like you.",
      "assets/tiresias_samples.jpg"],
@@ -24,11 +24,11 @@
      "assets/window.png"],
     ["Tonsor", "Changeling-Tonsor", "Anyone's hairstyle on you: the cut from one photo, the colour from another (HairFastGAN).",
      "assets/tonsor_samples.jpg"],
-    ["Tiresias Realtime", "Changeling-Tiresias-Realtime", "The other gender live on a call: one snapshot, swapped by Tiresias, worn live by Simia Realtime.",
+    ["Tiresias Realtime", "Changeling-Tiresias-Realtime", "The other gender live on a call: one snapshot, swapped by Tiresias, worn live by Imago Realtime.",
      "assets/realtime_samples.jpg"],
-    ["Chronos Realtime", "Changeling-Chronos-Realtime", "Younger or older live on a call: one snapshot, aged by Chronos, worn live by Simia Realtime.",
+    ["Chronos Realtime", "Changeling-Chronos-Realtime", "Younger or older live on a call: one snapshot, aged by Chronos, worn live by Imago Realtime.",
      "assets/realtime_samples.jpg"],
-    ["Natio Realtime", "Changeling-Natio-Realtime", "Another ancestry live on a call: one snapshot, changed by Natio, worn live by Simia Realtime.",
+    ["Natio Realtime", "Changeling-Natio-Realtime", "Another ancestry live on a call: one snapshot, changed by Natio, worn live by Imago Realtime.",
      "assets/realtime_samples.jpg"],
     ["Cosmeta Realtime", "Changeling-Cosmeta-Realtime", "Makeup, hair colour and beards live on a call: BiSeNet on the GPU, Cosmeta's own looks, every frame.",
      "assets/realtime_samples.jpg"],
