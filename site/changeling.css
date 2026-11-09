@@ -1,5 +1,5 @@
 /* changeling.css - the one look every Changeling's site shares (CopyCat, CopyCat Realtime, Tiresias,
-   Chronos, Cosmetics, Studio). Each site links it from Changeling Studio's Pages, so a change here shows
+   Chronos, Cosmeta, Studio). Each site links it from Changeling Studio's Pages, so a change here shows
    on all of them. The colours are the apps' own windows: customtkinter's dark greys and the Cursed pink.
    Solid colours only: no gradients, no drop shadows. */
 :root {

@@ -18,7 +18,7 @@
      "assets/chronos_samples.jpg"],
     ["Natio", "Changeling-Natio", "Your face as it might look born somewhere else in the world.",
      "assets/natio_samples.jpg"],
-    ["Cosmetics", "Changeling-Cosmetics", "Makeup, hair colour and length, and beards: colour, stubble, shave.",
+    ["Cosmeta", "Changeling-Cosmeta", "Makeup, hair colour and length, and beards: colour, stubble, shave.",
      "assets/cosmetics_samples.jpg"],
     ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live.",
      "assets/window.png"],
@@ -30,7 +30,7 @@
      "assets/realtime_samples.jpg"],
     ["Natio Realtime", "Changeling-Natio-Realtime", "Another ancestry live on a call: one snapshot, changed by Natio, worn live by CopyCat Realtime.",
      "assets/realtime_samples.jpg"],
-    ["Cosmetics Realtime", "Changeling-Cosmetics-Realtime", "Makeup, hair colour and beards live on a call: BiSeNet on the GPU, Cosmetics' own looks, every frame.",
+    ["Cosmeta Realtime", "Changeling-Cosmeta-Realtime", "Makeup, hair colour and beards live on a call: BiSeNet on the GPU, Cosmeta's own looks, every frame.",
      "assets/realtime_samples.jpg"],
     ["Studio", "Changeling-Studio", "Every Changeling in one place; one window and chains coming.", "site/logo.png"]
   ];

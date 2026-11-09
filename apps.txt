@@ -5,10 +5,10 @@ Changeling-CopyCat-Realtime
 Changeling-Tiresias
 Changeling-Chronos
 Changeling-Natio
-Changeling-Cosmetics
+Changeling-Cosmeta
 Changeling-Echo
 Changeling-Tonsor
 Changeling-Tiresias-Realtime
 Changeling-Chronos-Realtime
 Changeling-Natio-Realtime
-Changeling-Cosmetics-Realtime
+Changeling-Cosmeta-Realtime

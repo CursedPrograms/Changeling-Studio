@@ -14,7 +14,7 @@
 
 Every Changeling in one place. Each Changeling is its own program and its own repo; Studio keeps them side by
 side in one folder, so you work from here as if they were all one project, and (coming) runs them in one
-window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each adding to the last, live or on photos.
+window, with **chains**: CopyCat Realtime > Chronos > Cosmeta > Echo, each adding to the last, live or on photos.
 
 | Changeling | What it does |
 | --- | --- |
@@ -23,13 +23,13 @@ window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each add
 | [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias) | gender swap for photos |
 | [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) | age a face forwards or backwards, or a five-age timeline |
 | [Natio](https://github.com/CursedPrograms/Changeling-Natio) | your face as it might look born somewhere else in the world |
-| [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) | makeup, hair colour and length, beards, on two layers |
+| [Cosmeta](https://github.com/CursedPrograms/Changeling-Cosmeta) | makeup, hair colour and length, beards, on two layers |
 | [Echo](https://github.com/CursedPrograms/Changeling-Echo) | train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live |
 | [Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) | anyone's hairstyle on you: the cut from one photo, the colour from another (HairFastGAN) |
 | [Tiresias Realtime](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) | the other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime |
 | [Chronos Realtime](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) | younger or older live on a call, the same way |
 | [Natio Realtime](https://github.com/CursedPrograms/Changeling-Natio-Realtime) | another ancestry live on a call, the same way |
-| [Cosmetics Realtime](https://github.com/CursedPrograms/Changeling-Cosmetics-Realtime) | makeup, hair colour and beards live on a call, every frame (BiSeNet on the GPU, Cosmetics' own looks) |
+| [Cosmeta Realtime](https://github.com/CursedPrograms/Changeling-Cosmeta-Realtime) | makeup, hair colour and beards live on a call, every frame (BiSeNet on the GPU, Cosmeta's own looks) |
 
 The three realtime ones are one program, `realtime/live.py`, with a `realtime.json` naming its Changeling.
 `python realtime/make_realtime.py` writes all three repos from it (code, run scripts, README, site page, QR code);
@@ -54,7 +54,7 @@ again.
 ## Coming
 
 - **Studio itself:** one window with every Changeling as a tab.
-- **Chains:** run several in a row (CopyCat Realtime > Chronos > Cosmetics), live or on a photo.
+- **Chains:** run several in a row (CopyCat Realtime > Chronos > Cosmeta), live or on a photo.
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
 - **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 

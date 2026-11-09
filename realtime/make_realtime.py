@@ -173,13 +173,13 @@ FAMILY_LINE = """*Part of the Changeling family, all together in [Changeling Stu
 [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias) (gender) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos) (age) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio) (where in the world) ·
-[Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) (makeup, hair, beards) ·
+[Cosmeta](https://github.com/CursedPrograms/Changeling-Cosmeta) (makeup, hair colour) ·
 [Echo](https://github.com/CursedPrograms/Changeling-Echo) (voices) ·
-[Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) (hairstyles) ·
+[Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) (hairstyles, beards) ·
 realtime: [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio-Realtime) ·
-[Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics-Realtime).*"""
+[Cosmeta](https://github.com/CursedPrograms/Changeling-Cosmeta-Realtime).*"""
 
 FOOTER = """---
 
