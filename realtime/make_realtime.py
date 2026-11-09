@@ -177,7 +177,8 @@ FAMILY_LINE = """*Part of the Changeling family, all together in [Changeling Stu
 [Echo](https://github.com/CursedPrograms/Changeling-Echo) (voices) ·
 realtime: [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) ·
-[Natio](https://github.com/CursedPrograms/Changeling-Natio-Realtime).*"""
+[Natio](https://github.com/CursedPrograms/Changeling-Natio-Realtime) ·
+[Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics-Realtime).*"""
 
 FOOTER = """---
 

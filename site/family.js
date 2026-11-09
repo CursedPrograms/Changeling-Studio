@@ -28,6 +28,8 @@
      "assets/realtime_samples.jpg"],
     ["Natio Realtime", "Changeling-Natio-Realtime", "Another ancestry live on a call: one snapshot, changed by Natio, worn live by CopyCat Realtime.",
      "assets/realtime_samples.jpg"],
+    ["Cosmetics Realtime", "Changeling-Cosmetics-Realtime", "Makeup, hair colour and beards live on a call: BiSeNet on the GPU, Cosmetics' own looks, every frame.",
+     "assets/realtime_samples.jpg"],
     ["Studio", "Changeling-Studio", "Every Changeling in one place; one window and chains coming.", "site/logo.png"]
   ];
 

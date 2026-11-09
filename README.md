@@ -28,6 +28,7 @@ window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each add
 | [Tiresias Realtime](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) | the other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime |
 | [Chronos Realtime](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) | younger or older live on a call, the same way |
 | [Natio Realtime](https://github.com/CursedPrograms/Changeling-Natio-Realtime) | another ancestry live on a call, the same way |
+| [Cosmetics Realtime](https://github.com/CursedPrograms/Changeling-Cosmetics-Realtime) | makeup, hair colour and beards live on a call, every frame (BiSeNet on the GPU, Cosmetics' own looks) |
 
 The three realtime ones are one program, `realtime/live.py`, with a `realtime.json` naming its Changeling.
 `python realtime/make_realtime.py` writes all three repos from it (code, run scripts, README, site page, QR code);
@@ -54,11 +55,10 @@ again.
 - **Studio itself:** one window with every Changeling as a tab.
 - **Chains:** run several in a row (CopyCat Realtime > Chronos > Cosmetics), live or on a photo.
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
-- **Cosmetics Realtime** (makeup and hair colour live).
+- **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 
 **Your phone as the camera:** CopyCat Realtime's `run_server.bat` (and the realtime ones' **Phone as the camera**
 switch) serves a page with a QR code: the phone's camera and microphone are the input, the PC does the work.
-- **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 
 ## The look
 

@@ -10,3 +10,4 @@ Changeling-Echo
 Changeling-Tiresias-Realtime
 Changeling-Chronos-Realtime
 Changeling-Natio-Realtime
+Changeling-Cosmetics-Realtime
