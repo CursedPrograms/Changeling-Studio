@@ -12,6 +12,8 @@
 
 **Website:** https://cursedprograms.github.io/Changeling-Studio/
 
+**The name.** In European folklore a changeling is a fairy child left in the cradle in place of a stolen human one: something that wears a familiar face and isn't what it seems. Every Changeling here does a little of that, and each is named for the myth or the Latin word that fits it best.
+
 Every Changeling in one place. Each Changeling is its own program and its own repo; Studio keeps them side by
 side in one folder, so you work from here as if they were all one project, and (coming) runs them in one
 window, with **chains**: Imago Realtime > Chronos > Cosmeta > Echo, each adding to the last, live or on photos.
