@@ -21,6 +21,7 @@ COPIES = [   # (source, destination folder on F)
     ("Changeling-Natio/pretrained/eyes_open.npy", "stylegan2/directions"),
     ("Changeling-Cosmetics/models/face_parsing_int8.onnx", "face"),
     ("Changeling-Cosmetics/models/dmt.onnx", "makeup"),
+    ("Changeling-Cosmetics/models/face_parsing_bisenet.pth", "face"),
     ("Changeling-CopyCat/models/inswapper_128.onnx", "faceswap"),
     ("Changeling-CopyCat/models/GFPGANv1.4.pth", "faceswap"),
     ("Changeling-CopyCat-Realtime/models/xseg_1.onnx", "faceswap"),
