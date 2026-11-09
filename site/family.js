@@ -22,6 +22,8 @@
      "assets/cosmetics_samples.jpg"],
     ["Echo", "Changeling-Echo", "Train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live.",
      "assets/window.png"],
+    ["Tonsor", "Changeling-Tonsor", "Anyone's hairstyle on you: the cut from one photo, the colour from another (HairFastGAN).",
+     "assets/tonsor_samples.jpg"],
     ["Tiresias Realtime", "Changeling-Tiresias-Realtime", "The other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime.",
      "assets/realtime_samples.jpg"],
     ["Chronos Realtime", "Changeling-Chronos-Realtime", "Younger or older live on a call: one snapshot, aged by Chronos, worn live by CopyCat Realtime.",

@@ -25,6 +25,7 @@ window, with **chains**: CopyCat Realtime > Chronos > Cosmetics > Echo, each add
 | [Natio](https://github.com/CursedPrograms/Changeling-Natio) | your face as it might look born somewhere else in the world |
 | [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) | makeup, hair colour and length, beards, on two layers |
 | [Echo](https://github.com/CursedPrograms/Changeling-Echo) | train the voices the Changelings speak with (RVC, from Piper or your own recordings), and speak in them live |
+| [Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) | anyone's hairstyle on you: the cut from one photo, the colour from another (HairFastGAN) |
 | [Tiresias Realtime](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) | the other gender live on a call: one snapshot, swapped by Tiresias, worn live by CopyCat Realtime |
 | [Chronos Realtime](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) | younger or older live on a call, the same way |
 | [Natio Realtime](https://github.com/CursedPrograms/Changeling-Natio-Realtime) | another ancestry live on a call, the same way |

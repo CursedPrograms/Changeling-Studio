@@ -175,6 +175,7 @@ FAMILY_LINE = """*Part of the Changeling family, all together in [Changeling Stu
 [Natio](https://github.com/CursedPrograms/Changeling-Natio) (where in the world) ·
 [Cosmetics](https://github.com/CursedPrograms/Changeling-Cosmetics) (makeup, hair, beards) ·
 [Echo](https://github.com/CursedPrograms/Changeling-Echo) (voices) ·
+[Tonsor](https://github.com/CursedPrograms/Changeling-Tonsor) (hairstyles) ·
 realtime: [Tiresias](https://github.com/CursedPrograms/Changeling-Tiresias-Realtime) ·
 [Chronos](https://github.com/CursedPrograms/Changeling-Chronos-Realtime) ·
 [Natio](https://github.com/CursedPrograms/Changeling-Natio-Realtime) ·
