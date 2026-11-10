@@ -53,10 +53,32 @@ any of them with its own `run.bat` / `run.ps1` / `run.sh`. Where they use the sa
 share StyleGAN2 and the face finders), the later one borrows the first one's files instead of downloading them
 again.
 
+## The Gallery
+
+Everything you make with a Changeling, in one place. Each one still asks where to save, as before; once it has
+saved, the file goes into the Gallery too: Imago's pictures and videos, Imago Realtime's recordings, and Tiresias,
+Chronos, Natio, Cosmeta and Tonsor's pictures. Open it from Studio's **Gallery** button, the **Gallery** button in any
+of them, or `python gallery.py`. Newest first, a filter for each Changeling; click one to open it, or show it in its
+folder. The list lives in `~/.changeling/` (with a small picture of each, so it still shows what a moved file was).
+
+## Chains
+
+Several Changelings one after another on one photo, each step's result the next step's photo: Imago (another
+face) > Chronos (older) > Cosmeta (makeup), or Tiresias (the other gender) > Tonsor (a hairstyle). Studio's **Chain**
+button (or `python chain.py`): pick a photo, add steps with their options, **Run**. Every step runs in its own
+Changeling's environment, one at a time, and shows its result as it finishes; at the end it asks where to save, and
+the result goes into the Gallery. Live on a call: **Use as Imago Realtime persona** puts the result in Imago
+Realtime's `personas/`, **Wear it live** starts Imago Realtime wearing it.
+
+```
+python chain.py photo.jpg -o out.png --step "Tiresias to=female" --step "Chronos age=-0.5"
+python chain.py photo.jpg --step "Imago face=other.jpg" --step "Cosmeta preset=Goth"
+python chain.py --steps        every step and its options
+```
+
 ## Coming
 
 - **Studio itself:** one window with every Changeling as a tab.
-- **Chains:** run several in a row (Imago Realtime > Chronos > Cosmeta), live or on a photo.
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
 - **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 

@@ -4,7 +4,9 @@
     python studio.py fetch     1. clone the Changelings in apps.txt that aren't here, pull the rest
     python studio.py setup     2. each one's Python environment and requirements
     python studio.py models    3. every model, downloaded once and shared with every Changeling that needs it
-    python studio.py window    the Studio window: every Changeling, one click to start it
+    python studio.py window    the Studio window: every Changeling, one click to start it, and the Gallery
+    python gallery.py          the Gallery on its own: everything you've made with any Changeling
+    python chain.py            the Chain on its own: several Changelings one after another on one photo
 
 Only Python's standard library, so it runs before anything is installed.
 
@@ -232,6 +234,21 @@ def window():
     tk.Label(root, text="CHANGELING", fg=MUTED, bg=GREY, font=("Segoe UI", 9, "bold")).pack(anchor="w", padx=22, pady=(18, 0))
     tk.Label(root, text="Studio", fg=PINK, bg=GREY, font=("Segoe UI", 26, "bold")).pack(anchor="w", padx=22)
     tk.Label(root, text="every Changeling, one click to start it", fg=MUTED, bg=GREY, font=("Segoe UI", 10)).pack(anchor="w", padx=22)
+
+    def gallery():
+        import gallery as g                     # gallery.py, next to studio.py
+        g.show(root)
+    def chain():
+        import chain as c                       # chain.py, next to studio.py: Changelings one after another
+        c.show(root)
+    tools = tk.Frame(root, bg=GREY)
+    tools.pack(anchor="w", padx=22, pady=(10, 0))
+    tk.Button(tools, text="Gallery: everything you've made", bg=DEEP, fg="white", activebackground=PINK,
+              activeforeground="white", relief="flat", bd=0, padx=16, pady=6, font=("Segoe UI", 10, "bold"),
+              cursor="hand2", command=gallery).pack(side="left")
+    tk.Button(tools, text="Chain: several on one photo", bg=DEEP, fg="white", activebackground=PINK,
+              activeforeground="white", relief="flat", bd=0, padx=16, pady=6, font=("Segoe UI", 10, "bold"),
+              cursor="hand2", command=chain).pack(side="left", padx=(8, 0))
     body = tk.Frame(root, bg=GREY)
     body.pack(fill="both", expand=True, padx=16, pady=12)
     canvas = tk.Canvas(body, bg=GREY, highlightthickness=0)
