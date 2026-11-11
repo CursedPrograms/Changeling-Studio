@@ -74,6 +74,7 @@ Realtime's `personas/`, **Wear it live** starts Imago Realtime wearing it.
 python chain.py photo.jpg -o out.png --step "Tiresias to=female" --step "Chronos age=-0.5"
 python chain.py photo.jpg --step "Imago face=other.jpg" --step "Cosmeta preset=Goth"
 python chain.py --steps        every step and its options
+python chain.py --steps --json the same as JSON, and whether each Changeling is set up (LayerTack's Filter > Changeling reads it)
 ```
 
 ## Coming

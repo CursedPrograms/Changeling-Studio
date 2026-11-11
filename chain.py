@@ -160,12 +160,9 @@ def parse_step(text):
 def check(app, opts):
     """Why this step can't run, or None."""
     spec = STEPS[app]
-    if not os.path.isdir(app_dir(app)):
-        return f"Changeling {app} isn't here (studio.py fetch gets it)"
-    if not os.path.exists(os.path.join(app_dir(app), spec["entry"])):
-        return f"Changeling {app} has no {spec['entry']}"
-    if app_python(app, spec["env"], spec.get("siblings", ())) is None:
-        return f"Changeling {app}'s environment isn't set up (studio.py setup, or start it once)"
+    why = installed(app)
+    if why:
+        return why
     for key, kind, _, _, label in spec["options"]:
         if kind == "file" and not opts.get(key):
             return f"{app}: pick the {label.lower()}"
@@ -324,6 +321,31 @@ def cli(args):
         p = persona_path(final)
         shutil.copy(final, p)
         print(f"persona {p}", flush=True)
+
+
+def installed(app):
+    """Why the Changeling can't run at all (not here, no environment), or None."""
+    spec = STEPS[app]
+    if not os.path.isdir(app_dir(app)):
+        return f"Changeling {app} isn't here (studio.py fetch gets it)"
+    if not os.path.exists(os.path.join(app_dir(app), spec["entry"])):
+        return f"Changeling {app} has no {spec['entry']}"
+    if app_python(app, spec["env"], spec.get("siblings", ())) is None:
+        return f"Changeling {app}'s environment isn't set up (studio.py setup, or start it once)"
+    return None
+
+
+def steps_json():
+    """Every step for other programs (LayerTack's Filter > Changeling builds its dialogs from this)."""
+    import json
+    out = []
+    for app, spec in STEPS.items():
+        out.append({"app": app, "about": spec["about"], "missing": installed(app) or "",
+                    "options": [{"key": k, "kind": kind, "default": d, "label": label,
+                                 **({"choices": list(c)} if kind == "choice" else {}),
+                                 **({"min": c[0], "max": c[1]} if kind == "number" else {})}
+                                for k, kind, d, c, label in spec["options"]]})
+    print(json.dumps({"steps": out}), flush=True)
 
 
 def list_steps():
@@ -771,12 +793,13 @@ def main():
     ap.add_argument("-o", "--output", help="where to save the result (default: in ~/.changeling/chain/...)")
     ap.add_argument("--step", action="append", default=[], help='a step: "App key=value ...", in order (--steps lists them)')
     ap.add_argument("--steps", action="store_true", help="list every step and its options")
+    ap.add_argument("--json", action="store_true", help="with --steps: as JSON, and whether each Changeling is set up")
     ap.add_argument("--remember", action="store_true", help="note the result in the Gallery")
     ap.add_argument("--persona", action="store_true", help="also put the result in Imago Realtime's personas/")
     ap.add_argument("--window", action="store_true", help="open the window with this photo and these steps instead")
     args = ap.parse_args()
     if args.steps:
-        list_steps()
+        steps_json() if args.json else list_steps()
     elif args.photo and not args.window:
         cli(args)
     else:
