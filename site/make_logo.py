@@ -12,7 +12,7 @@ import random
 HERE = os.path.dirname(os.path.abspath(__file__))
 BG = "#1a1a1a"
 SKIN, SKIN_SHADE, FEATURE = "#f0c4a8", "#d89a7c", "#1a1a1a"
-PINKS = ["#e0408a", "#c2186b", "#f29cc0", "#8e1150", "#ff7ab3"]
+PINKS = ["#007bb7", "#005184", "#34a9e3", "#004067", "#5bc0f0"]
 DARK = "#5e0b35"
 
 

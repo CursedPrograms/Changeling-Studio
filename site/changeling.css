@@ -1,6 +1,6 @@
 /* changeling.css - the one look every Changeling's site shares (Imago, Imago Realtime, Tiresias,
    Chronos, Cosmeta, Studio). Each site links it from Changeling Studio's Pages, so a change here shows
-   on all of them. The colours are the apps' own windows: customtkinter's dark greys and the Cursed pink.
+   on all of them. The colours are the apps' own windows: customtkinter's dark greys and the Atelier blue.
    Solid colours only: no gradients, no drop shadows. */
 :root {
   --bg: #1a1a1a;          /* the window (gray10) */
@@ -9,9 +9,9 @@
   --border: #333333;
   --text: #d6d6d6;        /* gray84 */
   --dim: #9a9a9a;
-  --accent: #e0408a;      /* the Cursed pink: buttons, switches, bars */
-  --accent-dark: #c2186b;
-  --link: #f29cc0;
+  --accent: #007bb7;      /* the Atelier blue: buttons, switches, bars */
+  --accent-dark: #005184;
+  --link: #34a9e3;
   --font: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
   --mono: "Cascadia Mono", ui-monospace, Consolas, monospace;
 }

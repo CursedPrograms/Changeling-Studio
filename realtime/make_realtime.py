@@ -367,14 +367,14 @@ def qr(app, out):
     url = f"https://cursedprograms.github.io/Changeling-{app}-Realtime/"
     code = segno.make(url, error="m")
     tmp = out + ".tmp.png"
-    code.save(tmp, scale=10, border=2, dark="#e0408a", light="#ffffff")
+    code.save(tmp, scale=10, border=2, dark="#007bb7", light="#ffffff")
     q = Image.open(tmp).convert("RGB")
     os.remove(tmp)
     pad, frame, text_h = 16, 6, 64
     W = q.width + 2 * (pad + frame)
     img = Image.new("RGB", (W, q.height + 2 * (pad + frame) + text_h), "#121216")
     d = ImageDraw.Draw(img)
-    d.rectangle([pad, pad, pad + q.width + 2 * frame - 1, pad + q.height + 2 * frame - 1], fill="#e0408a")
+    d.rectangle([pad, pad, pad + q.width + 2 * frame - 1, pad + q.height + 2 * frame - 1], fill="#007bb7")
     img.paste(q, (pad + frame, pad + frame))
     try:
         font = ImageFont.truetype("arialbd.ttf", 24)
@@ -382,7 +382,7 @@ def qr(app, out):
         font = ImageFont.load_default()
     label = f"Changeling-{app}-Realtime"
     tw = d.textlength(label, font=font)
-    d.text(((W - tw) / 2, q.height + 2 * (pad + frame) + 16), label, fill="#e0408a", font=font)
+    d.text(((W - tw) / 2, q.height + 2 * (pad + frame) + 16), label, fill="#007bb7", font=font)
     img.save(out)
 
 

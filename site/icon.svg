@@ -3,23 +3,23 @@
 <rect width="64" height="64" rx="12" fill="#1a1a1a"/>
 <path d="M32.0,10.9 L33.3,10.9 L34.5,11.2 L35.7,11.5 L36.9,12.0 L38.1,12.6 L39.3,13.3 L40.4,14.2 L41.4,15.2 L42.4,16.2 L43.3,17.4 L44.2,18.7 L44.9,20.1 L45.6,21.6 L46.3,23.1 L46.8,24.7 L47.2,26.4 L47.6,28.1 L47.8,29.8 L48.0,31.5 L48.0,33.3 L47.9,35.0 L47.6,36.8 L47.1,38.5 L46.6,40.2 L45.9,41.9 L45.1,43.4 L44.3,45.0 L43.4,46.4 L42.5,47.8 L41.5,49.1 L40.5,50.3 L39.5,51.4 L38.5,52.4 L37.6,53.2 L36.6,54.0 L35.7,54.6 L34.7,55.1 L33.8,55.4 L32.9,55.6 L32.0,55.7 L31.1,55.6 L30.2,55.4 L29.3,55.1 L28.3,54.6 L27.4,54.0 L26.4,53.2 L25.5,52.4 L24.5,51.4 L23.5,50.3 L22.5,49.1 L21.5,47.8 L20.6,46.4 L19.7,45.0 L18.9,43.4 L18.1,41.9 L17.4,40.2 L16.9,38.5 L16.4,36.8 L16.1,35.0 L16.0,33.3 L16.0,31.5 L16.2,29.8 L16.4,28.1 L16.8,26.4 L17.2,24.7 L17.7,23.1 L18.4,21.6 L19.1,20.1 L19.8,18.7 L20.7,17.4 L21.6,16.2 L22.6,15.2 L23.6,14.2 L24.7,13.3 L25.9,12.6 L27.1,12.0 L28.3,11.5 L29.5,11.2 L30.7,10.9 Z" fill="#f0c4a8"/>
 <g clip-path="url(#right)"><g clip-path="url(#face)">
-<rect x="32.0" y="10.9" width="8.5" height="8.5" fill="#8e1150"/>
-<rect x="40.0" y="10.9" width="8.5" height="8.5" fill="#ff7ab3"/>
-<rect x="32.0" y="18.9" width="8.5" height="8.5" fill="#8e1150"/>
-<rect x="40.0" y="18.9" width="8.5" height="8.5" fill="#8e1150"/>
-<rect x="32.0" y="26.9" width="8.5" height="8.5" fill="#ff7ab3"/>
-<rect x="40.0" y="26.9" width="8.5" height="8.5" fill="#ff7ab3"/>
-<rect x="32.0" y="34.9" width="8.5" height="8.5" fill="#c2186b"/>
-<rect x="40.0" y="34.9" width="8.5" height="8.5" fill="#c2186b"/>
-<rect x="32.0" y="42.9" width="8.5" height="8.5" fill="#ff7ab3"/>
-<rect x="40.0" y="42.9" width="8.5" height="8.5" fill="#8e1150"/>
-<rect x="32.0" y="50.9" width="8.5" height="8.5" fill="#5e0b35"/>
-<rect x="40.0" y="50.9" width="8.5" height="8.5" fill="#ff7ab3"/>
+<rect x="32.0" y="10.9" width="8.5" height="8.5" fill="#004f74"/>
+<rect x="40.0" y="10.9" width="8.5" height="8.5" fill="#389ad1"/>
+<rect x="32.0" y="18.9" width="8.5" height="8.5" fill="#004f74"/>
+<rect x="40.0" y="18.9" width="8.5" height="8.5" fill="#004f74"/>
+<rect x="32.0" y="26.9" width="8.5" height="8.5" fill="#389ad1"/>
+<rect x="40.0" y="26.9" width="8.5" height="8.5" fill="#389ad1"/>
+<rect x="32.0" y="34.9" width="8.5" height="8.5" fill="#005184"/>
+<rect x="40.0" y="34.9" width="8.5" height="8.5" fill="#005184"/>
+<rect x="32.0" y="42.9" width="8.5" height="8.5" fill="#389ad1"/>
+<rect x="40.0" y="42.9" width="8.5" height="8.5" fill="#004f74"/>
+<rect x="32.0" y="50.9" width="8.5" height="8.5" fill="#00344d"/>
+<rect x="40.0" y="50.9" width="8.5" height="8.5" fill="#389ad1"/>
 </g>
-<rect x="48.0" y="18.9" width="6.0" height="6.0" fill="#c2186b"/>
-<rect x="48.0" y="42.9" width="8.0" height="8.0" fill="#e0408a"/>
-<rect x="48.0" y="26.9" width="6.0" height="6.0" fill="#ff7ab3"/>
-<rect x="48.0" y="34.9" width="8.0" height="8.0" fill="#e0408a"/>
+<rect x="48.0" y="18.9" width="6.0" height="6.0" fill="#005184"/>
+<rect x="48.0" y="42.9" width="8.0" height="8.0" fill="#007bb7"/>
+<rect x="48.0" y="26.9" width="6.0" height="6.0" fill="#389ad1"/>
+<rect x="48.0" y="34.9" width="8.0" height="8.0" fill="#007bb7"/>
 </g>
 <line x1="32.0" y1="9.6" x2="32.0" y2="57.0" stroke="#1a1a1a" stroke-width="0.8"/>
 </svg>

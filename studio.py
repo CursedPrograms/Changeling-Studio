@@ -222,7 +222,7 @@ def models():
 def window():
     import tkinter as tk
     import webbrowser
-    GREY, PANEL, LINE, TEXT, MUTED, PINK, DEEP = "#1a1a1a", "#242424", "#3a3a3a", "#e6e6e6", "#9a9a9a", "#e0408a", "#c2186b"
+    GREY, PANEL, LINE, TEXT, MUTED, PINK, DEEP = "#1a1a1a", "#242424", "#3a3a3a", "#e6e6e6", "#9a9a9a", "#007bb7", "#005184"
     info = {n: d for n, d in json.load(open(os.path.join(HERE, "models.json"), encoding="utf-8"))["apps"].items()}
     root = tk.Tk()
     root.title("Changeling Studio")
@@ -283,7 +283,7 @@ def window():
                         font=("Segoe UI", 10, "bold"), cursor="hand2" if here else "arrow",
                         state="normal" if here else "disabled", command=lambda n=name: launch(n))
         btn.pack(side="right", padx=14)
-        git = tk.Label(card, text="GitHub", fg="#f29cc0", bg=PANEL, cursor="hand2", font=("Segoe UI", 9))
+        git = tk.Label(card, text="GitHub", fg="#34a9e3", bg=PANEL, cursor="hand2", font=("Segoe UI", 9))
         git.pack(side="right")
         git.bind("<Button-1>", lambda e, n=name: webbrowser.open(f"https://github.com/{OWNER}/{n}"))
     tk.Label(root, text="Each one opens in its own window. © Cursed Entertainment 2026", fg="#6f6f6f", bg=GREY,

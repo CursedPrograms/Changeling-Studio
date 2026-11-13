@@ -32,7 +32,7 @@ NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 QUALITY = ["fast", "balanced", "best"]
 RESULT = {"whole photo": ["--whole-photo"], "keep hair": ["--keep-hair"], "face frame": []}
 GENDERS = ["auto", "female", "male", "off"]
-COSMETA_PRESETS = ["none", "Natural", "Glam", "Smoky", "Goth", "Cursed pink", "Copper hair", "Platinum hair"]
+COSMETA_PRESETS = ["none", "Natural", "Glam", "Smoky", "Goth", "Atelier blue", "Copper hair", "Platinum hair"]
 
 
 # ---- where each Changeling's Python is
@@ -358,7 +358,7 @@ def list_steps():
 
 
 # ---- the window
-GREY, PANEL, LINE, TEXT, MUTED, PINK, DEEP = "#1a1a1a", "#242424", "#3a3a3a", "#e6e6e6", "#9a9a9a", "#e0408a", "#c2186b"
+GREY, PANEL, LINE, TEXT, MUTED, PINK, DEEP = "#1a1a1a", "#242424", "#3a3a3a", "#e6e6e6", "#9a9a9a", "#007bb7", "#005184"
 FONT = "Segoe UI"
 
 
