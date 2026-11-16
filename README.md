@@ -39,6 +39,17 @@ change it here, run that, then commit and push each. StyleGAN editing is a minut
 every frame, so they make the new you once and Imago Realtime wears it live, with the new you's skin (its tone
 and wrinkles) through Imago Realtime's **Persona's skin**.
 
+## Minimum requirements
+
+| | |
+| --- | --- |
+| **System** | Windows 10 or 11, 64-bit (the Python Changelings also run on Linux) |
+| **Processor** | any 64-bit processor |
+| **Memory** | 8 GB RAM (16 GB for Tiresias, Chronos and Natio) |
+| **Graphics** | C++ Studio: a DirectX 12 card (NVIDIA, AMD or Intel), or the CPU, slower; Python Changelings: an NVIDIA card with 4 GB or more is best |
+| **Disk** | about 3 GB for the face models, more for each Changeling you fetch |
+| **Other** | ffmpeg for videos; a webcam for the realtime ones; Python 3.10+ for the Python Changelings |
+
 ## Get them all
 
 ```
