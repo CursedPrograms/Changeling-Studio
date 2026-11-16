@@ -77,9 +77,31 @@ python chain.py --steps        every step and its options
 python chain.py --steps --json the same as JSON, and whether each Changeling is set up (LayerTack's Filter > Changeling reads it)
 ```
 
+## Changeling Studio in C++ (`cpp/`)
+
+The Studio as one C++ program for Atelier: no Python, one window, every Changeling on the left as a choice, its
+sliders under it, the picture before and after in the middle (drag the line). Built on Mimic's face core (SCRFD,
+ArcFace, the swappers and restorers, BiSeNet), ONNX Runtime with DirectML (any DirectX 12 GPU) or the CPU, and ffmpeg
+for videos and the webcam. Language packs (`cpp/lang`, Language menu): Japanese, Chinese, Spanish, Korean, French,
+German, Russian, Serbian, Afrikaans, Yucatec Maya and Deitsch.
+
+| Changeling | In the C++ Studio |
+|---|---|
+| **Imago** | the face swap on photos and videos (13 swap models, pixel boost, identity weight, enhancers, which faces, detector margin) |
+| **Imago Realtime** | the webcam live: the swap and Cosmeta's look, recording to MP4 |
+| **Cosmeta** | lipstick, gloss, eye shadow, eyeliner, brows, blush, skin smoothing and glow, hair colour, each a slider with its colour, laid at the photo's own resolution |
+| Tiresias, Chronos, Natio | next: StyleGAN2 + e4e as ONNX |
+| Tonsor, Echo | later: HairFastGAN and RVC as ONNX |
+
+```bat
+cpp\build.bat     :: fetches SDL2 and ONNX Runtime once, builds cpp\build\Release\ChangelingStudio.exe and a zip
+```
+
+Until the rest are in, the Python Studio (`studio.bat`) runs them; the C++ Studio's button opens it.
+
 ## Coming
 
-- **Studio itself:** one window with every Changeling as a tab.
+- **Studio itself:** one window with every Changeling as a tab (the C++ Studio above does this, three Changelings so far).
 - **A basic editor everywhere:** brightness, contrast, saturation, warmth, vignette, sharpen, on two layers.
 - **Whole-photo results with the hair cleaned up** (inpainting the leftover hair outside the face frame).
 

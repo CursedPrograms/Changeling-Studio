@@ -1,0 +1,77 @@
+cmake_minimum_required(VERSION 3.20)
+project(ChangelingStudio VERSION 0.1.0 LANGUAGES C CXX)
+# Changeling Studio in C++: every Changeling in one window, no Python. Part of Atelier.
+# The face core (detection, identity, the swap, the restorers, the face parser) is Mimic's (core/: from
+# CursedPrograms/Mimic, MIT); ONNX Runtime (DirectML: any DirectX 12 GPU) is loaded at run time; video and the webcam
+# go through ffmpeg.   Windows: build.bat    Linux: ./build.sh
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(STB_DIR ${CMAKE_SOURCE_DIR}/external/stb)
+foreach(f stb_image.h stb_image_write.h)
+    if(NOT EXISTS ${STB_DIR}/${f})
+        file(DOWNLOAD https://raw.githubusercontent.com/nothings/stb/master/${f} ${STB_DIR}/${f})
+    endif()
+endforeach()
+set(ORT_DIR ${CMAKE_SOURCE_DIR}/external/ortdml)
+if(NOT EXISTS ${ORT_DIR}/onnxruntime_c_api.h)
+    file(DOWNLOAD https://raw.githubusercontent.com/microsoft/onnxruntime/v1.20.1/include/onnxruntime/core/session/onnxruntime_c_api.h ${ORT_DIR}/onnxruntime_c_api.h)
+endif()
+
+# the face core (Mimic's)
+add_library(face_core STATIC core/ort.cpp core/faces.cpp core/emap.cpp core/mimic.cpp core/editor.cpp core/video.cpp core/picture.cpp core/stb.cpp)
+target_include_directories(face_core PUBLIC ${STB_DIR} ${ORT_DIR} core)
+if(MSVC)
+    target_compile_options(face_core PRIVATE /O2 /fp:fast /utf-8 /D_CRT_SECURE_NO_WARNINGS)
+else()
+    target_link_libraries(face_core PUBLIC dl pthread)
+endif()
+
+# Dear ImGui (the docking branch), SDL2, OpenGL
+include(FetchContent)
+if(EXISTS ${CMAKE_SOURCE_DIR}/external/imgui-1.90.4-docking/imgui.h)
+    set(FETCHCONTENT_SOURCE_DIR_IMGUI ${CMAKE_SOURCE_DIR}/external/imgui-1.90.4-docking)
+endif()
+FetchContent_Declare(imgui URL https://github.com/ocornut/imgui/archive/refs/tags/v1.90.4-docking.tar.gz)
+FetchContent_MakeAvailable(imgui)
+if(WIN32 AND NOT SDL2_DIR AND EXISTS ${CMAKE_SOURCE_DIR}/external/SDL2-2.30.9/cmake)
+    set(SDL2_DIR ${CMAKE_SOURCE_DIR}/external/SDL2-2.30.9/cmake)
+endif()
+find_package(SDL2 REQUIRED)
+find_package(OpenGL REQUIRED)
+add_library(imgui STATIC
+    ${imgui_SOURCE_DIR}/imgui.cpp ${imgui_SOURCE_DIR}/imgui_draw.cpp ${imgui_SOURCE_DIR}/imgui_tables.cpp
+    ${imgui_SOURCE_DIR}/imgui_widgets.cpp ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
+    ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp)
+target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
+target_link_libraries(imgui PUBLIC SDL2::SDL2 OpenGL::GL)
+
+set(SOURCES src/main.cpp src/cosmeta.cpp src/camera.cpp src/lang.cpp src/splash.cpp)
+if(WIN32)
+    list(APPEND SOURCES src/app.rc)
+endif()
+add_executable(ChangelingStudio WIN32 ${SOURCES})
+target_include_directories(ChangelingStudio PRIVATE src)
+target_link_libraries(ChangelingStudio PRIVATE face_core imgui)
+target_compile_definitions(ChangelingStudio PRIVATE STUDIO_VERSION="${PROJECT_VERSION}")
+if(TARGET SDL2::SDL2main)
+    target_link_libraries(ChangelingStudio PRIVATE SDL2::SDL2main)
+endif()
+if(MSVC)
+    target_compile_options(ChangelingStudio PRIVATE /W3 /utf-8 /O2 /D_CRT_SECURE_NO_WARNINGS)
+endif()
+add_custom_command(TARGET ChangelingStudio POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:ChangelingStudio>/assets
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lang $<TARGET_FILE_DIR:ChangelingStudio>/lang)
+if(WIN32)
+    add_custom_command(TARGET ChangelingStudio POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:SDL2::SDL2> $<TARGET_FILE_DIR:ChangelingStudio>)
+    foreach(dll onnxruntime.dll DirectML.dll)
+        if(EXISTS ${ORT_DIR}/${dll})
+            add_custom_command(TARGET ChangelingStudio POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ORT_DIR}/${dll} $<TARGET_FILE_DIR:ChangelingStudio>)
+        endif()
+    endforeach()
+endif()

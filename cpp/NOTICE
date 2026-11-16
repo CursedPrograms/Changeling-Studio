@@ -1,0 +1,11 @@
+Changeling Studio (C++), Copyright (c) 2026 Cursed Entertainment. Farica☆Kimora © Cursed Entertainment.
+
+The face core (core/) is Mimic's (CursedPrograms/Mimic, MIT): FaceFusion's face processors in C++.
+Built with: Dear ImGui (MIT), SDL2 (zlib), stb (MIT / public domain), ONNX Runtime (MIT) with DirectML (MIT),
+and ffmpeg (LGPL/GPL, run as its own program for videos and the webcam).
+
+Models (fetched once, or found on this PC; each under its own licence):
+- InsightFace: SCRFD / RetinaFace (det_10g), ArcFace w600k, inswapper 128 (non-commercial research use)
+- GFPGAN (Apache 2.0), CodeFormer (S-Lab 1.0, non-commercial), GPEN
+- BiSeNet face parsing (MIT), FairFace (CC BY 4.0)
+Imago follows roop (AGPL-3.0) and FaceFusion. Only use faces you have the right to use.
