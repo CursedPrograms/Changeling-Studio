@@ -61,6 +61,16 @@ struct Settings {
     bool regions[RG_COUNT] = {true, true, true, true, true, true, true, true, true, true};
     float maskBlur = 0.3f;
     int padding[4] = {0, 0, 0, 0};
+    // the swap's style: 0 Classic (FaceFusion's: the box and the masks above), 1 Deep-Live-Cam's look: a soft oval
+    // instead of the box, the swapped face's colour matched to the skin round it, your own mouth kept if you like,
+    // a Poisson blend into the picture, sharpness and opacity (after hacksider/Deep-Live-Cam's ideas, written anew)
+    int style = 0;
+    bool dlcColour = true;         // the swapped face's colour and light matched to the face it replaces
+    bool dlcPoisson = false;       // blended in by its gradients (no seam), slower
+    bool dlcMouth = false;         // your own mouth kept (talking, teeth, tongue look like you)
+    float dlcMouthSize = 0.3f;     // how far the kept mouth reaches: 0 the lips, 1 down to the chin
+    float dlcOpacity = 1.0f;       // the swapped face over yours: 0 none, 1 all
+    float dlcSharpness = 0.0f;     // 0 none .. 1 strong
     // the processors, in FaceFusion's order
     bool swap = true;
     int swapModel = 0;             // index into swapModels()

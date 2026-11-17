@@ -371,6 +371,29 @@ static void imagoControls(bool live) {
     if (slider("Pixel boost", &boost, 1, 4, "%.0fx", "The face swapped at 2-4x its size, in several passes: sharper, slower")) { settings.boost = (int)std::lround(boost); ch = true; }
     ch |= slider("Identity weight", &settings.weight, 0, 1, "%.2f", "0: more of the face to become; 1: more of the person's own look");
     ch |= slider("Mask blur", &settings.maskBlur, 0, 1, "%.2f", "How soft the swapped face's edge is");
+    // the style: Classic (FaceFusion's box and masks) or Deep-Live-Cam's look, as a two-way switch
+    heading("Style");
+    {
+        const char* styles[] = {"Classic", "Deep-Live-Cam"};
+        const float bw = (ImGui::GetContentRegionAvail().x - 4) / 2;
+        for (int k = 0; k < 2; ++k) {
+            if (k) ImGui::SameLine(0, 4);
+            const bool on = settings.style == k;
+            if (on) ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+            if (ImGui::Button(T(styles[k]), ImVec2(bw, 0)) && !on) { settings.style = k; ch = true; }
+            if (on) ImGui::PopStyleColor();
+            if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s", k == 0 ? T("Classic: FaceFusion's box and masks") : T("Deep-Live-Cam's look: a soft oval, the colour matched to the skin, your own mouth if you like, a Poisson blend"));
+        }
+    }
+    if (settings.style == 1) {
+        ch |= ImGui::Checkbox(T("Match the colour"), &settings.dlcColour);
+        ImGui::SameLine(); ch |= ImGui::Checkbox(T("Poisson blend"), &settings.dlcPoisson);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("%s", T("Blended in by its gradients, so no seam shows. Slower."));
+        ch |= ImGui::Checkbox(T("Keep my mouth"), &settings.dlcMouth);
+        if (settings.dlcMouth) ch |= slider("Mouth reaches", &settings.dlcMouthSize, 0, 1, "%.2f", "0: just the lips; 1: down to the chin");
+        ch |= slider("Opacity", &settings.dlcOpacity, 0, 1, "%.2f", "How much of the swapped face shows over yours");
+        ch |= slider("Sharpness", &settings.dlcSharpness, 0, 1, "%.2f", "Sharpens the swapped face");
+    }
     heading("Restore");
     ch |= ImGui::Checkbox(T("Face enhancer"), &settings.enhance);
     if (settings.enhance) {
@@ -634,6 +657,7 @@ int main(int argc, char** argv) {
         else if (args[i] == "--makeup" && more) { const float v = (float)atof(args[++i].c_str()); look.lip = look.blush = look.shadow = look.liner = look.brow = v; look.smooth = v * 0.6f; }
         else if (args[i] == "--lang" && more) Lang::load(exeDir() + "lang", args[++i]);
         else if (args[i] == "--no-enhance") settings.enhance = false;
+        else if (args[i] == "--dlc") { settings.style = 1; settings.dlcMouth = true; }   // tests: the Deep-Live-Cam style
         else if (args[i] == "--selftest" && more) selftest = args[++i];
         else file = args[i];
     }

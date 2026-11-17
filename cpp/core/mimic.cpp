@@ -353,8 +353,10 @@ static bool sourceInput(const SwapModel& sm, const Source& src, const Face& targ
 }
 
 // the masks for a crop of the face, as the settings ask (box, occlusion; area and region come after the swap)
+static const std::vector<float>& ovalMask(int size);
 static bool preMasks(const Crop& crop, const Settings& st, std::vector<float>& mask, std::string& err) {
-    mask = st.maskBox ? boxMask(crop.w, crop.h, st.maskBlur, st.padding) : std::vector<float>((size_t)crop.w * crop.h, 1.0f);
+    // Deep-Live-Cam's look: its soft oval in the box's place (the occlusion, area and region masks still apply if on)
+    mask = st.style == 1 ? ovalMask(crop.w) : st.maskBox ? boxMask(crop.w, crop.h, st.maskBlur, st.padding) : std::vector<float>((size_t)crop.w * crop.h, 1.0f);
     if (st.maskOcclusion) { std::vector<float> o; if (!occlusionMask(crop, st.occluder, o, err)) return false; minInto(mask, o); }
     return true;
 }
@@ -362,6 +364,138 @@ static bool postMasks(const Crop& result, const Face& f, const Affine& M, const 
     if (st.maskArea) minInto(mask, areaMask(f, M, result.w, result.h, st.areas));
     if (st.maskRegion) { std::vector<float> r; if (!regionMask(result, st.parser, st.regions, r, err)) return false; minInto(mask, r); }
     return true;
+}
+
+// ---------- the Deep-Live-Cam style (see Settings::style) ----------
+// a soft oval in the crop (axes 0.44 of the side, feathered by a Gaussian of 12/128 of it): no box corners show
+static const std::vector<float>& ovalMask(int size) {
+    static std::map<int, std::vector<float>> cache;
+    static std::mutex lock;
+    std::lock_guard<std::mutex> g(lock);
+    auto it = cache.find(size);
+    if (it != cache.end()) return it->second;
+    std::vector<float> m((size_t)size * size, 0.0f);
+    const float c = size / 2.0f, r = size * 0.44f;
+    for (int y = 0; y < size; ++y)
+        for (int x = 0; x < size; ++x) { const float dx = (x + 0.5f - c) / r, dy = (y + 0.5f - c) / r; if (dx * dx + dy * dy <= 1) m[(size_t)y * size + x] = 1; }
+    gaussianBlur(m, size, size, size * 12.0f / 128.0f);
+    return cache[size] = m;
+}
+// sRGB 0..255 <-> CIE Lab (D65)
+static void toLab(const float* rgb, float* lab) {
+    float l[3];
+    for (int k = 0; k < 3; ++k) { const float v = rgb[k] / 255.0f; l[k] = v <= 0.04045f ? v / 12.92f : std::pow((v + 0.055f) / 1.055f, 2.4f); }
+    const float X = (0.4124f * l[0] + 0.3576f * l[1] + 0.1805f * l[2]) / 0.95047f, Y = 0.2126f * l[0] + 0.7152f * l[1] + 0.0722f * l[2], Z = (0.0193f * l[0] + 0.1192f * l[1] + 0.9505f * l[2]) / 1.08883f;
+    auto f = [](float t) { return t > 0.008856f ? std::cbrt(t) : 7.787f * t + 16.0f / 116.0f; };
+    const float fx = f(X), fy = f(Y), fz = f(Z);
+    lab[0] = 116 * fy - 16; lab[1] = 500 * (fx - fy); lab[2] = 200 * (fy - fz);
+}
+static void fromLab(const float* lab, float* rgb) {
+    const float fy = (lab[0] + 16) / 116, fx = fy + lab[1] / 500, fz = fy - lab[2] / 200;
+    auto g = [](float t) { return t * t * t > 0.008856f ? t * t * t : (t - 16.0f / 116.0f) / 7.787f; };
+    const float X = g(fx) * 0.95047f, Y = g(fy), Z = g(fz) * 1.08883f;
+    const float l[3] = {3.2406f * X - 1.5372f * Y - 0.4986f * Z, -0.9689f * X + 1.8758f * Y + 0.0415f * Z, 0.0557f * X - 0.2040f * Y + 1.0570f * Z};
+    for (int k = 0; k < 3; ++k) { const float v = std::max(0.0f, l[k]); rgb[k] = std::clamp((v <= 0.0031308f ? 12.92f * v : 1.055f * std::pow(v, 1 / 2.4f) - 0.055f) * 255.0f, 0.0f, 255.0f); }
+}
+// Reinhard's colour transfer: the result's Lab mean and spread made the original's, over the mask
+static void colourTransfer(Crop& result, const Crop& original, const std::vector<float>& mask) {
+    const size_t n = (size_t)result.w * result.h;
+    std::vector<float> a(n * 3), b(n * 3);
+    for (size_t i = 0; i < n; ++i) { toLab(&result.px[i * 3], &a[i * 3]); toLab(&original.px[i * 3], &b[i * 3]); }
+    double sa[3] = {0}, sb[3] = {0}, qa[3] = {0}, qb[3] = {0}, wsum = 0;
+    for (size_t i = 0; i < n; ++i) {
+        const double w = mask[i]; if (w <= 0.05) continue;
+        for (int k = 0; k < 3; ++k) { sa[k] += a[i * 3 + k] * w; sb[k] += b[i * 3 + k] * w; qa[k] += a[i * 3 + k] * a[i * 3 + k] * w; qb[k] += b[i * 3 + k] * b[i * 3 + k] * w; }
+        wsum += w;
+    }
+    if (wsum < 16) return;
+    float ma[3], mb[3], k_[3];
+    for (int k = 0; k < 3; ++k) {
+        ma[k] = (float)(sa[k] / wsum); mb[k] = (float)(sb[k] / wsum);
+        const double va = std::max(1e-6, qa[k] / wsum - ma[k] * ma[k]), vb = std::max(1e-6, qb[k] / wsum - mb[k] * mb[k]);
+        k_[k] = (float)std::clamp(std::sqrt(vb / va), 0.5, 2.0);
+    }
+    for (size_t i = 0; i < n; ++i) {
+        float l[3]; for (int k = 0; k < 3; ++k) l[k] = (a[i * 3 + k] - ma[k]) * k_[k] + mb[k];
+        fromLab(l, &result.px[i * 3]);
+    }
+}
+// an unsharp mask on the result
+static void sharpen(Crop& c, float amount) {
+    if (amount <= 0) return;
+    for (int k = 0; k < 3; ++k) {
+        std::vector<float> ch((size_t)c.w * c.h);
+        for (size_t i = 0; i < ch.size(); ++i) ch[i] = c.px[i * 3 + k];
+        std::vector<float> bl = ch;
+        gaussianBlur(bl, c.w, c.h, std::max(1.0f, c.w / 128.0f));
+        for (size_t i = 0; i < ch.size(); ++i) c.px[i * 3 + k] = std::clamp(ch[i] + (ch[i] - bl[i]) * amount * 1.5f, 0.0f, 255.0f);
+    }
+}
+// Poisson blending, in the crop: the result keeps its own gradients, its edge takes the original's values (the
+// difference at the edge spread smoothly inside: a membrane, solved coarse to fine)
+static void poissonBlend(Crop& result, const Crop& original, const std::vector<float>& mask) {
+    const int w = result.w, h = result.h;
+    std::vector<char> inside((size_t)w * h);
+    for (size_t i = 0; i < inside.size(); ++i) inside[i] = mask[i] > 0.5f;
+    for (int k = 0; k < 3; ++k) {
+        // the difference (original - result), known outside the region; a membrane inside
+        std::vector<float> d((size_t)w * h);
+        for (size_t i = 0; i < d.size(); ++i) d[i] = original.px[i * 3 + k] - result.px[i * 3 + k];
+        // coarse start: the mean of the edge
+        double e = 0; int ne = 0;
+        for (int y = 1; y < h - 1; ++y) for (int x = 1; x < w - 1; ++x) {
+            const size_t i = (size_t)y * w + x;
+            if (!inside[i] && (inside[i - 1] || inside[i + 1] || inside[i - w] || inside[i + w])) { e += d[i]; ++ne; }
+        }
+        const float start = ne ? (float)(e / ne) : 0.0f;
+        for (size_t i = 0; i < d.size(); ++i) if (inside[i]) d[i] = start;
+        for (int it = 0; it < 400; ++it) {
+            float change = 0;
+            for (int y = 1; y < h - 1; ++y) for (int x = 1; x < w - 1; ++x) {
+                const size_t i = (size_t)y * w + x;
+                if (!inside[i]) continue;
+                const float nv = d[i] + 1.9f * ((d[i - 1] + d[i + 1] + d[i - w] + d[i + w]) * 0.25f - d[i]);
+                change = std::max(change, std::fabs(nv - d[i])); d[i] = nv;
+            }
+            if (change < 0.05f) break;
+        }
+        for (size_t i = 0; i < d.size(); ++i) if (inside[i]) result.px[i * 3 + k] = std::clamp(result.px[i * 3 + k] + d[i], 0.0f, 255.0f);
+    }
+}
+// your own mouth kept: the 68 points' outer lips (48-59), reaching down towards the chin (8) by size, feathered;
+// the original frame's pixels put back there
+static void keepMouth(Img& frame, const Img& before, const Face& f, float size) {
+    std::vector<float> pts;
+    const float* L = f.lm68;
+    float cx = 0, cy = 0;
+    for (int i = 48; i < 60; ++i) { cx += L[i * 2]; cy += L[i * 2 + 1]; }
+    cx /= 12; cy /= 12;
+    const float grow = 1.12f;   // a little past the lips
+    for (int i = 48; i < 60; ++i) { pts.push_back(cx + (L[i * 2] - cx) * grow); pts.push_back(cy + (L[i * 2 + 1] - cy) * grow); }
+    // down towards the chin: the lower lip's points pulled towards point 8 by size
+    for (int i = 54; i <= 60 && size > 0; ++i) {
+        const int j = i == 60 ? 48 : i;
+        pts.push_back(L[j * 2] + (L[16] - L[j * 2]) * size * 0.8f); pts.push_back(L[j * 2 + 1] + (L[17] - L[j * 2 + 1]) * size * 0.8f);
+    }
+    float x0 = 1e9f, y0 = 1e9f, x1 = -1e9f, y1 = -1e9f;
+    for (size_t i = 0; i < pts.size(); i += 2) { x0 = std::min(x0, pts[i]); x1 = std::max(x1, pts[i]); y0 = std::min(y0, pts[i + 1]); y1 = std::max(y1, pts[i + 1]); }
+    const float feather = std::max(2.0f, (x1 - x0) * 0.12f);
+    const int bx0 = std::max(0, (int)(x0 - feather * 3)), by0 = std::max(0, (int)(y0 - feather * 3));
+    const int bx1 = std::min(frame.w, (int)(x1 + feather * 3) + 1), by1 = std::min(frame.h, (int)(y1 + feather * 3) + 1);
+    const int bw = bx1 - bx0, bh = by1 - by0;
+    if (bw <= 2 || bh <= 2) return;
+    for (size_t i = 0; i < pts.size(); i += 2) { pts[i] -= bx0; pts[i + 1] -= by0; }
+    std::vector<float> m((size_t)bw * bh, 0.0f);
+    fillConvex(m, bw, bh, pts);
+    gaussianBlur(m, bw, bh, feather);
+    for (int y = 0; y < bh; ++y)
+        for (int x = 0; x < bw; ++x) {
+            const float a = m[(size_t)y * bw + x];
+            if (a <= 0.001f) continue;
+            uint8_t* p = &frame.px[((size_t)(y + by0) * frame.w + x + bx0) * 3];
+            const uint8_t* o = &before.px[((size_t)(y + by0) * frame.w + x + bx0) * 3];
+            for (int k = 0; k < 3; ++k) p[k] = (uint8_t)(p[k] * (1 - a) + o[k] * a + 0.5f);
+        }
 }
 
 static bool swapOne(Img& frame, const Face& target, const Source& src, const Settings& st, std::string& err) {
@@ -403,7 +537,16 @@ static bool swapOne(Img& frame, const Face& target, const Source& src, const Set
                 }
         }
     if (!postMasks(result, target, M, st, mask, err)) return false;
-    pasteBack(frame, result, mask, M);
+    if (st.style != 1) { pasteBack(frame, result, mask, M); return true; }
+    if (st.dlcColour) colourTransfer(result, crop, mask);
+    sharpen(result, st.dlcSharpness);
+    if (st.dlcPoisson) {   // its edge eroded a little, so the seam sits on solidly swapped pixels
+        std::vector<float> core = mask; for (auto& v : core) v = v > 0.85f ? 1.0f : 0.0f;
+        poissonBlend(result, crop, core);
+    }
+    Img before; if (st.dlcMouth) before = frame;
+    pasteBack(frame, result, mask, M, std::clamp(st.dlcOpacity, 0.0f, 1.0f));
+    if (st.dlcMouth) keepMouth(frame, before, target, std::clamp(st.dlcMouthSize, 0.0f, 1.0f));
     return true;
 }
 

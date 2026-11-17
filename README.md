@@ -96,6 +96,10 @@ ArcFace, the swappers and restorers, BiSeNet), ONNX Runtime with DirectML (any D
 for videos and the webcam. Language packs (`cpp/lang`, Language menu): Japanese, Chinese, Spanish, Korean, French,
 German, Russian, Serbian, Afrikaans, Yucatec Maya and Deitsch.
 
+Imago and Imago Realtime have a **Style** switch: **Classic** (FaceFusion's box and masks) or **Deep-Live-Cam**'s
+look (a soft oval, the colour matched to the skin, keep my mouth, a Poisson blend, opacity and sharpness), after
+[Deep-Live-Cam](https://github.com/hacksider/Deep-Live-Cam)'s ideas.
+
 | Changeling | In the C++ Studio |
 |---|---|
 | **Imago** | the face swap on photos and videos (13 swap models, pixel boost, identity weight, enhancers, which faces, detector margin) |
