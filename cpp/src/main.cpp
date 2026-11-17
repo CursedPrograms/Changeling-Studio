@@ -196,9 +196,10 @@ static bool findFaces(const Img& im, std::vector<Face>& faces, std::string& err)
     return true;
 }
 // what the chosen Changeling does to one picture (the preview, each video frame, each webcam frame)
-static bool processPicture(Img& im, int mod, bool cosmetaToo, std::string& err) {
+static bool processPicture(Img& im, int mod, bool cosmetaToo, std::string& err, int sequence = 0) {
     if (mod == M_IMAGO || mod == M_REALTIME) {
-        if (source.ready() && settings.swap) { if (Mimic::processFrame(im, source, settings, reference, err) < 0) return false; }
+        Mimic::Settings st = settings; st.sequence = sequence;   // (a video's frames: smoothed one into the next)
+        if (source.ready() && settings.swap) { if (Mimic::processFrame(im, source, st, reference, err) < 0) return false; }
         if (!cosmetaToo || !look.any()) return true;
     }
     if (look.any()) {
@@ -283,13 +284,15 @@ static void renderVideo() {
         Video::Writer w;
         if (!w.open(out, r.info.w, r.info.h, r.info.fps, in, 18, err)) { say(err); progress = -1; return; }
         Img f; long n = 0;
+        const int seq = Mimic::beginSequence();
         while (!stopRender && r.next(f)) {
-            if (!processPicture(f, mod, chain, err)) { say(err); break; }
+            if (!processPicture(f, mod, chain, err, seq)) { say(err); break; }
             w.write(f); ++n;
             progress = r.info.frames > 0 ? (float)n / r.info.frames : 0.5f;
             say(std::string(T("Rendering")) + " " + std::to_string(n) + (r.info.frames > 0 ? " / " + std::to_string(r.info.frames) : ""));
         }
         w.close();
+        Mimic::endSequence(seq);
         say(stopRender ? std::string(T("Stopped")) : std::string(T("Saved ")) + base(out));
         progress = -1;
     });
@@ -302,6 +305,7 @@ static long long camSeen = 0; static Img live, liveOut; static GLuint liveTex = 
 static std::atomic<bool> liveBusy{false};
 static bool liveSwap = true, liveCosmeta = true;
 static Video::Writer recorder; static bool recording = false; static std::string recordPath;
+static int liveSequence = 0;   // the webcam session: its frames smoothed one into the next (Mimic::beginSequence)
 static double liveFps = 0; static std::chrono::steady_clock::time_point liveT0 = std::chrono::steady_clock::now(); static int liveFrames = 0;
 static void liveTick() {
     if (!cam.running()) return;
@@ -310,7 +314,7 @@ static void liveTick() {
         liveBusy = true;
         std::thread([f]() mutable {
             std::string err;
-            if (liveSwap && source.ready() && settings.swap) Mimic::processFrame(f, source, settings, reference, err);
+            if (liveSwap && source.ready() && settings.swap) { Mimic::Settings st = settings; st.sequence = liveSequence; Mimic::processFrame(f, source, st, reference, err); }
             if (liveCosmeta && look.any()) { std::vector<Face> fs; if (findFaces(f, fs, err)) Cosmeta::apply(f, fs, look, err); }
             post([f] {
                 liveOut = f; liveStale = true;
@@ -393,6 +397,7 @@ static void imagoControls(bool live) {
         if (settings.dlcMouth) ch |= slider("Mouth reaches", &settings.dlcMouthSize, 0, 1, "%.2f", "0: just the lips; 1: down to the chin");
         ch |= slider("Opacity", &settings.dlcOpacity, 0, 1, "%.2f", "How much of the swapped face shows over yours");
         ch |= slider("Sharpness", &settings.dlcSharpness, 0, 1, "%.2f", "Sharpens the swapped face");
+        ch |= slider("Smoothing", &settings.dlcSmooth, 0, 1, "%.2f", "Video and the webcam: each face blended with its last frame's, so it flickers less (more trails a little)");
     }
     heading("Restore");
     ch |= ImGui::Checkbox(T("Face enhancer"), &settings.enhance);
@@ -446,9 +451,9 @@ static void realtimeControls() {
             ImGui::EndCombo();
         }
         if (!cam.running()) {
-            if (ImGui::Button(T("Start"), ImVec2(-1, 30))) { std::string err; if (!cam.open(cameras[camIndex], 1280, 720, err)) say(err); else say(T("Live")); }
+            if (ImGui::Button(T("Start"), ImVec2(-1, 30))) { std::string err; if (!cam.open(cameras[camIndex], 1280, 720, err)) say(err); else { liveSequence = Mimic::beginSequence(); say(T("Live")); } }
         } else {
-            if (ImGui::Button(T("Stop"), ImVec2(-1, 30))) { if (recording) { recorder.close(); recording = false; } cam.close(); }
+            if (ImGui::Button(T("Stop"), ImVec2(-1, 30))) { if (recording) { recorder.close(); recording = false; } cam.close(); Mimic::endSequence(liveSequence); liveSequence = 0; }
             ImGui::Text("%s %.0f fps (%s %.0f)", T("Showing"), liveFps, T("camera"), cam.fps());
         }
     }

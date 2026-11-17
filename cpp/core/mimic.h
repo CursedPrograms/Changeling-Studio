@@ -71,6 +71,9 @@ struct Settings {
     float dlcMouthSize = 0.3f;     // how far the kept mouth reaches: 0 the lips, 1 down to the chin
     float dlcOpacity = 1.0f;       // the swapped face over yours: 0 none, 1 all
     float dlcSharpness = 0.0f;     // 0 none .. 1 strong
+    float dlcSmooth = 0.3f;        // video and the webcam: each face blended with its last frame's (steadier, less
+                                   // flicker; 0 none .. 1 most). Only within a sequence (below)
+    int sequence = 0;              // the frames of one video or one webcam session (beginSequence); 0: a still picture
     // the processors, in FaceFusion's order
     bool swap = true;
     int swapModel = 0;             // index into swapModels()
@@ -100,6 +103,9 @@ struct Reference { Face face; bool set = false; };
 
 // every face the settings pick in this frame (analysed: points, identity, age/gender/race when the filters need it)
 bool pickFaces(const Img& frame, const Source& src, const Settings& st, const Reference& ref, std::vector<Face>& picked, std::vector<Face>* all, std::string& err);
+// a video or a webcam session: its frames may be smoothed one into the next (Settings::sequence = the id); end it after
+int beginSequence();
+void endSequence(int id);
 // the processors on a picture or frame, in place; returns how many faces were done (-1 on error)
 int processFrame(Img& frame, const Source& src, const Settings& st, const Reference& ref, std::string& err, Ort::Say say = nullptr);
 inline int swapFrame(Img& frame, const Source& src, const Settings& st, const Reference& ref, std::string& err, Ort::Say say = nullptr) { return processFrame(frame, src, st, ref, err, say); }

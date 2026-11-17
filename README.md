@@ -97,7 +97,8 @@ for videos and the webcam. Language packs (`cpp/lang`, Language menu): Japanese,
 German, Russian, Serbian, Afrikaans, Yucatec Maya and Deitsch.
 
 Imago and Imago Realtime have a **Style** switch: **Classic** (FaceFusion's box and masks) or **Deep-Live-Cam**'s
-look (a soft oval, the colour matched to the skin, keep my mouth, a Poisson blend, opacity and sharpness), after
+look (a soft oval, the colour matched to the skin, keep my mouth, a Poisson blend, opacity, sharpness and smoothing
+between frames on videos and the webcam), after
 [Deep-Live-Cam](https://github.com/hacksider/Deep-Live-Cam)'s ideas.
 
 | Changeling | In the C++ Studio |

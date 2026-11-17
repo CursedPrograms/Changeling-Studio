@@ -498,6 +498,37 @@ static void keepMouth(Img& frame, const Img& before, const Face& f, float size) 
         }
 }
 
+// smoothing between frames: per sequence, each face's last swapped crop (in its own aligned space, so it follows the
+// face), found again by where its box is
+struct Remembered { float cx, cy, size; int crop; std::vector<float> px; };
+struct Track { std::vector<Remembered> prev, cur; };
+static std::map<int, Track> tracks;
+static std::mutex trackLock;
+static int nextSequence = 1;
+int beginSequence() { std::lock_guard<std::mutex> g(trackLock); const int id = nextSequence++; tracks[id] = Track(); return id; }
+void endSequence(int id) { std::lock_guard<std::mutex> g(trackLock); tracks.erase(id); }
+static void newFrame(int seq) {
+    if (!seq) return;
+    std::lock_guard<std::mutex> g(trackLock);
+    auto it = tracks.find(seq); if (it == tracks.end()) return;
+    it->second.prev = std::move(it->second.cur); it->second.cur.clear();
+}
+static void smoothWithLast(Crop& result, const Face& f, const Settings& st) {
+    if (!st.sequence) return;
+    const float cx = (f.box[0] + f.box[2]) / 2, cy = (f.box[1] + f.box[3]) / 2, size = std::max(1.0f, f.box[2] - f.box[0]);
+    std::lock_guard<std::mutex> g(trackLock);
+    auto it = tracks.find(st.sequence); if (it == tracks.end()) return;
+    Track& t = it->second;
+    const float s = std::clamp(st.dlcSmooth, 0.0f, 1.0f) * 0.75f;   // (never all of the last frame: it would freeze)
+    if (s > 0)
+        for (const auto& r : t.prev)
+            if (r.crop == result.w && std::hypot(r.cx - cx, r.cy - cy) < 0.25f * size && std::fabs(r.size - size) < 0.25f * size) {
+                for (size_t i = 0; i < result.px.size(); ++i) result.px[i] = result.px[i] * (1 - s) + r.px[i] * s;
+                break;
+            }
+    t.cur.push_back({cx, cy, size, result.w, result.px});
+}
+
 static bool swapOne(Img& frame, const Face& target, const Source& src, const Settings& st, std::string& err) {
     const auto& sm = swapModels()[std::clamp(st.swapModel, 0, (int)swapModels().size() - 1)];
     OrtSession* s = Ort::open(sm.file, err);
@@ -539,6 +570,7 @@ static bool swapOne(Img& frame, const Face& target, const Source& src, const Set
     if (!postMasks(result, target, M, st, mask, err)) return false;
     if (st.style != 1) { pasteBack(frame, result, mask, M); return true; }
     if (st.dlcColour) colourTransfer(result, crop, mask);
+    smoothWithLast(result, target, st);
     sharpen(result, st.dlcSharpness);
     if (st.dlcPoisson) {   // its edge eroded a little, so the seam sits on solidly swapped pixels
         std::vector<float> core = mask; for (auto& v : core) v = v > 0.85f ? 1.0f : 0.0f;
@@ -612,6 +644,7 @@ bool editOne(Img& frame, const Face& target, const Settings& st, std::string& er
 int processFrame(Img& frame, const Source& src, const Settings& st, const Reference& ref, std::string& err, Ort::Say say) {
     if (st.swap && !src.ready()) { err = "Pick the face to become first (or turn the face swapper off)"; return -1; }
     if (!prepare(st, err, say)) return -1;
+    newFrame(st.sequence);
     double t = tick(), tPick, tSwap = 0, tEnh = 0;
     std::vector<Face> targets;
     if (!pickFaces(frame, src, st, ref, targets, nullptr, err)) return -1;
